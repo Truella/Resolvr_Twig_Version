@@ -1,43 +1,38 @@
-# Node and frontend dependencies
-node_modules/
-dist/
-build/
-
-# Composer dependencies
+# Dependencies
 /vendor/
+node_modules/
 
 # Environment files
 .env
 .env.local
 .env.*.local
 
-# Twig cache and temporary files
-cache/
-tmp/
-logs/
-sessions/
-
-# IDE / editor configs
+# IDE files
 .vscode/
 .idea/
-*.sublime-project
-*.sublime-workspace
+*.swp
+*.swo
+*~
 
-# OS metadata files
+# OS files
 .DS_Store
 Thumbs.db
 
-# Backup and temp files
-*.bak
-*.tmp
-*.swp
-*~
+# Build files (if Tailwind generates these)
+/public/build/
+/public/css/app.css
+/public/js/app.js
 
-# PHPUnit or testing cache
-.phpunit.result.cache
-
-# Generated files
+# Logs
 *.log
-*.zip
-*.tar
-*.tar.gz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache/
+*.cache
+
+# Temporary files
+tmp/
+temp/
