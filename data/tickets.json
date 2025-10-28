@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1761552805",
+        "title": "This is  a new ticket",
+        "description": "It is an optional ticket",
+        "status": "open",
+        "priority": "low",
+        "createdAt": "2025-10-27T09:13:25+01:00"
+    },
+    {
+        "id": "1761644026",
+        "title": "new one",
+        "description": "damd",
+        "status": "in_progress",
+        "priority": "medium",
+        "createdAt": "2025-10-28T10:33:46+01:00"
+    }
+]

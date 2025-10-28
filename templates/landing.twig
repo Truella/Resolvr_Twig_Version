@@ -1,0 +1,127 @@
+{% extends "layout/base.twig" %}
+
+{% block title %}TicketFlow - Manage Your Tickets Effortlessly{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative overflow-hidden h-screen bg-linear-to-br from-blue-50 to-blue-100" aria-label="Landing hero section">
+    <!-- Decorative circles -->
+    <div class="absolute right-7 top-12 w-20 h-20 bg-blue-300 rounded-full opacity-70 animate-pulse z-10" aria-hidden="true"></div>
+    <div class="absolute right-7 top-12 w-40 h-40 bg-blue-200 rounded-full opacity-70 animate-pulse z-10" aria-hidden="true"></div>
+
+    <!-- Main content -->
+    <div class="relative z-10 max-w-[1440px] mx-auto px-6 pt-20 pb-32 text-center md:pt-32 md:pb-48">
+        <div>
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 leading-tight">
+                Manage Your Tickets <br class="hidden md:block"> Effortlessly
+            </h1>
+
+            <p class="mt-4 text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
+                Simplify your workflow. Create, track, and resolve support tickets all in one place.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/signup" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition inline-flex items-center justify-center gap-2">
+                    Get Started
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+
+                <a href="/login" class="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg text-lg font-medium hover:bg-blue-600 hover:text-white focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+                    Login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wave SVG -->
+    <svg class="absolute bottom-0 left-0 w-full text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="currentColor" d="M0,256L30,250.7C60,245,120,235,180,218.7C240,203,300,181,360,181.3C420,181,480,203,540,192C600,181,660,139,720,128C780,117,840,139,900,160C960,181,1020,203,1080,192C1140,181,1200,139,1260,144C1320,149,1380,203,1410,229.3L1440,256V320H0Z"></path>
+    </svg>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="bg-white  mx-auto pb-20 text-center" aria-labelledby="features-heading">
+    <div class="w-[90vw] max-w-[1200px] mx-auto">
+        <h2 id="features-heading" class="text-3xl md:text-4xl font-extrabold text-gray-800 mb-1">
+           Create. Track. Resolve.</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+            A smarter way to handle tickets from start to finish — all in one intuitive dashboard.</p>
+
+        <!-- Features Grid -->
+        <div class="grid gap-8 md:grid-cols-3 ">
+            <div class="bg-linear-to-br from-blue-50 to-blue-100 focus-within:ring-2 focus-within:ring-blue-400 rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center text-center">
+                <div class="mb-4">
+                    <svg class="text-blue-600 w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Easy Ticketing</h3>
+                <p class="text-gray-600 text-base leading-relaxed">
+                    Create, assign, and manage tickets effortlessly with intuitive forms and real-time updates.
+                </p>
+            </div>
+
+            <div class="bg-linear-to-br from-blue-50 to-blue-100 focus-within:ring-2 focus-within:ring-blue-400 rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center text-center ">
+                <div class="mb-4">
+                    <svg class="text-blue-600 w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Real-Time Tracking</h3>
+                <p class="text-gray-600 text-base leading-relaxed">
+                    Monitor open, in-progress, and closed tickets at a glance using your dashboard summary cards.
+                </p>
+            </div>
+
+            <div class="bg-linear-to-br from-blue-50 to-blue-100 focus-within:ring-2 focus-within:ring-blue-400 rounded-2xl shadow-md hover:shadow-lg transition p-8 flex flex-col items-center text-center">
+                <div class="mb-4">
+                    <svg class="text-blue-600 w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Insightful Dashboard</h3>
+                <p class="text-gray-600 text-base leading-relaxed">
+                    Gain quick insights into your workflow with stats and visual summaries of all ticket statuses.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class=" mx-auto relative py-20 overflow-hidden" aria-labelledby="about-heading">
+   
+    <div class="max-w-[1200px] w-[90vw] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <!-- Left side - Image placeholder -->
+        <div>
+            <div class="w-full max-w-sm md:max-w-md bg-linear-to-br from-blue-50 to-blue-100 rounded-3xl h-80 flex items-center justify-center">
+                <svg class="w-32 h-32 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Right side - Text -->
+        <div>
+            <h2 id="about-heading" class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                About Resolvr.
+            </h2>
+
+            <p class="text-gray-600 leading-relaxed mb-6">
+                Resolvr is your all-in-one platform for managing tickets, tasks, and support requests with ease. Whether you're a small team or a growing company, Resolvr helps you stay organized, resolve issues faster, and track progress effortlessly — all from one dashboard.
+            </p>
+
+            <p class="text-gray-600 leading-relaxed">
+                Built with simplicity and performance in mind, our goal is to make ticket management intuitive and enjoyable. Stay focused on what matters — we'll handle the workflow.
+            </p>
+
+            <a href="/signup" class="mt-8 inline-block bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+                Get Started
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

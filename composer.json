@@ -1,0 +1,17 @@
+{
+    "name": "turah/twig_version",
+    "autoload": {
+        "psr-4": {
+            "Turah\\TwigVersion\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Truella",
+            "email": "turahsuleiman1212@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.21"
+    }
+}

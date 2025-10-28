@@ -1,0 +1,43 @@
+# Node and frontend dependencies
+node_modules/
+dist/
+build/
+
+# Composer dependencies
+/vendor/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Twig cache and temporary files
+cache/
+tmp/
+logs/
+sessions/
+
+# IDE / editor configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS metadata files
+.DS_Store
+Thumbs.db
+
+# Backup and temp files
+*.bak
+*.tmp
+*.swp
+*~
+
+# PHPUnit or testing cache
+.phpunit.result.cache
+
+# Generated files
+*.log
+*.zip
+*.tar
+*.tar.gz

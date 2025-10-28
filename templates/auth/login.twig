@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Resolvr.</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body>
+    <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 relative overflow-hidden" aria-label="Authentication page layout">
+        <!-- Decorative circles -->
+        <div class="absolute top-10 left-10 w-40 h-40 bg-blue-200 rounded-full opacity-70" aria-hidden="true"></div>
+        <div class="absolute bottom-10 right-10 w-32 h-32 bg-blue-300 rounded-full opacity-70" aria-hidden="true"></div>
+
+        <!-- Auth Form Container -->
+        <div class="relative z-10 w-full max-w-md bg-white shadow-lg rounded-2xl px-8 py-10 md:px-10">
+            <!-- Success State -->
+            <div id="successState" class="hidden flex-col items-center gap-4 text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Login Successful!</h3>
+                    <p class="text-gray-600">Welcome back!</p>
+                    <p class="text-sm text-gray-500 mt-2">Redirecting to dashboard...</p>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div id="progressBar" class="bg-green-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm">
+                <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Welcome Back</h2>
+
+                {% if error %}
+                <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="/login" class="flex flex-col gap-4" id="loginFormElement">
+                    <label class="flex flex-col text-sm font-medium text-gray-700">
+                        Email
+                        <input type="email" name="email" required class="border border-gray-300 rounded-lg p-2 mt-1 focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="youremail@example.com">
+                    </label>
+
+                    <label class="flex flex-col text-sm font-medium text-gray-700">
+                        Password
+                        <input type="password" name="password" required class="border border-gray-300 rounded-lg p-2 mt-1 focus:ring-2 focus:ring-blue-400 focus:outline-none" placeholder="Enter Password">
+                    </label>
+
+                    <button type="submit" id="submitBtn" class="bg-blue-600 text-white rounded-lg p-2 font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition">
+                        <span id="btnText">Login</span>
+                        <span id="btnLoading" class="hidden flex items-center justify-center gap-2">
+                            <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            Signing In...
+                        </span>
+                    </button>
+                </form>
+
+                <p class="text-center text-sm text-gray-600 mt-6">
+                    Don't have an account? 
+                    <a href="/signup" class="text-blue-600 hover:underline">Sign up</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const loginFormElement = document.getElementById('loginFormElement');
+        const loginForm = document.getElementById('loginForm');
+        const successState = document.getElementById('successState');
+        const progressBar = document.getElementById('progressBar');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const btnLoading = document.getElementById('btnLoading');
+        
+        let progressInterval = null;
+
+        function startProgressBar() {
+            let width = 0;
+            progressBar.style.width = '0%';
+            
+            progressInterval = setInterval(() => {
+                if (width < 100) {
+                    width += 5;
+                    progressBar.style.width = width + '%';
+                } else {
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 100);
+                }
+            }, 100); // 100ms * 20 = 2000ms total
+        }
+
+        loginFormElement.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoading.classList.remove('hidden');
+            btnLoading.classList.add('flex');
+
+            const formData = new FormData(loginFormElement);
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    // Hide form, show success
+                    loginForm.classList.add('hidden');
+                    successState.classList.remove('hidden');
+                    successState.classList.add('flex');
+                    
+                    // Start progress bar
+                    startProgressBar();
+                } else {
+                    // Handle error - reload page to show error message
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                window.location.reload();
+            }
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (progressInterval) {
+                clearInterval(progressInterval);
+            }
+        });
+    </script>
+</body>
+</html>
