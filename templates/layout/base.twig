@@ -17,7 +17,7 @@
 
 </head>
 <body class="bg-gray-50">
-    {% block header %}
+<div class="max-w-[1440px] mx-auto"> {% block header %}
     <header class="bg-white shadow-sm sticky top-0 z-50 h-[10vh] flex items-center" role="banner" aria-label="Site Header">
         <div class="w-full mx-auto px-8 md:px-16 flex items-center justify-between">
             <!-- Logo -->
@@ -100,7 +100,8 @@
         </div>
     </footer>
     {% endblock %}
-
+</div>
+   
     <script>
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
