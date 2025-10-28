@@ -1,6 +1,9 @@
 <?php
 
 function handleLogin($twig) {
+    error_log('Session ID: ' . session_id());
+    error_log('Session data before: ' . print_r($_SESSION, true));
+
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
 
@@ -39,6 +42,7 @@ function handleLogin($twig) {
         'email' => $foundUser['email'],
         'name' => $foundUser['name']
     ];
+    error_log('Session data after: ' . print_r($_SESSION, true));
     
     header('Location: /dashboard');
     exit;

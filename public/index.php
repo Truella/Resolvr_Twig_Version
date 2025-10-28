@@ -1,10 +1,23 @@
 <?php
-// Add these at the very top of index.php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_samesite', 'Lax');
 
+// For HTTPS environments (Railway uses HTTPS)
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    ini_set('session.cookie_secure', 1);
+}
+
+// Set session save path to a writable directory
+$sessionPath = sys_get_temp_dir() . '/sessions';
+if (!is_dir($sessionPath)) {
+    mkdir($sessionPath, 0777, true);
+}
+session_save_path($sessionPath);
+
+// Start session BEFORE any redirects or output
 session_start();
-// ... rest of the code
+
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
