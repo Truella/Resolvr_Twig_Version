@@ -33,6 +33,7 @@ function renderDashboard($twig) {
 
     echo $twig->render('dashboard/home.twig', [
         'user' => $_SESSION['user'],
+        'currentPath' => $_SERVER['REQUEST_URI'],
         'stats' => $stats
     ]);
 }

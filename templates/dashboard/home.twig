@@ -1,11 +1,12 @@
 {% extends "dashboard/layout.twig" %}
 
 {% block dashboard_content %}
-<div class="min-h-screen bg-gray-50 p-8">
-    <div class="max-w-7xl mx-auto">
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto w-[90vw]">
         <!-- Header -->
         <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2 hidden md:block">Dashboard</h1>
+            <h1 class="text-3xl font-medium text-gray-900 mb-2 md:hidden">Welcome, {{user.name}}</h1>
             <p class="text-gray-600">Overview of your ticket management system</p>
         </div>
 

@@ -13,7 +13,7 @@
         <div class="absolute bottom-10 right-10 w-32 h-32 bg-blue-300 rounded-full opacity-70" aria-hidden="true"></div>
 
         <!-- Auth Form Container -->
-        <div class="relative z-10 w-full max-w-md bg-white shadow-lg rounded-2xl px-8 py-10 md:px-10">
+        <div class="relative z-10 w-[90vw] max-w-md bg-white shadow-lg rounded-2xl px-8 py-10 md:px-10">
             <!-- Success State -->
             <div id="successState" class="hidden flex-col items-center gap-4 text-center">
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
@@ -33,11 +33,25 @@
 
             <!-- Login Form -->
             <div id="loginForm">
+                <!-- Back to Home Link -->
+                <a href="/" class="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-blue-600 transition mb-4">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Back to Home
+                </a>
+                
                 <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">Welcome Back</h2>
 
                 {% if error %}
                 <div class="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
                     {{ error }}
+                </div>
+                {% endif %}
+
+                {% if success %}
+                <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-600 rounded-lg text-sm">
+                    {{ success }}
                 </div>
                 {% endif %}
 

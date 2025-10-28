@@ -1,12 +1,24 @@
 <?php
-
 function getTickets() {
     $ticketsFile = __DIR__ . '/../data/tickets.json';
-    if (file_exists($ticketsFile)) {
-        return json_decode(file_get_contents($ticketsFile), true) ?? [];
+    $userId = $_SESSION['user']['id'] ?? null; // Get current user ID safely
+
+    if (!$userId) {
+        return []; // No user logged in
     }
+
+    if (file_exists($ticketsFile)) {
+        $tickets = json_decode(file_get_contents($ticketsFile), true) ?? [];
+
+        // Filter tickets by user ID
+        return array_filter($tickets, function($ticket) use ($userId) {
+            return isset($ticket['user_token']) && $ticket['user_token'] == $userId;
+        });
+    }
+
     return [];
 }
+
 
 function saveTickets($tickets) {
     $ticketsFile = __DIR__ . '/../data/tickets.json';
@@ -88,7 +100,8 @@ function createTicket() {
         'description' => $description,
         'status' => $status,
         'priority' => $priority,
-        'createdAt' => date('c')
+        'createdAt' => date('c'),
+        'user_token' => $_SESSION['user']['id']
     ];
     
     $tickets[] = $newTicket;

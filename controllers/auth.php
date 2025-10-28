@@ -33,14 +33,12 @@ function handleLogin($twig) {
         exit;
     }
 
-    // Set session (simulating localStorage)
-    $_SESSION['ticketapp_session'] = json_encode([
+    // Set session - store user data
+    $_SESSION['user'] = [
+        'id' => $foundUser['id'],
         'email' => $foundUser['email'],
-        'name' => $foundUser['name'],
-        'token' => 'fake_login_token_' . time()
-    ]);
-
-    $_SESSION['user'] = $foundUser;
+        'name' => $foundUser['name']
+    ];
     
     header('Location: /dashboard');
     exit;
@@ -82,29 +80,30 @@ function handleSignup($twig) {
         }
     }
 
-    // Create new user
+    // Create new user with unique ID
     $newUser = [
+        'id' => uniqid('user_', true), // Unique user ID
         'email' => $email,
-        'password' => $password, // In production, hash this!
+        'password' => $password, // In production, use password_hash()!
         'name' => $name,
-        'token' => 'fake_signup_token_' . time()
+        'created_at' => date('Y-m-d H:i:s')
     ];
 
     $users[] = $newUser;
 
     // Ensure data directory exists
-    if (!is_dir(__DIR__ . '/../data')) {
-        mkdir(__DIR__ . '/../data', 0755, true);
+    $dataDir = __DIR__ . '/../data';
+    if (!is_dir($dataDir)) {
+        mkdir($dataDir, 0777, true);
     }
 
     // Save users
     file_put_contents($usersFile, json_encode($users, JSON_PRETTY_PRINT));
 
-    // Set session
-    $_SESSION['ticketapp_session'] = json_encode($newUser);
-    $_SESSION['user'] = $newUser;
-
-    header('Location: /dashboard');
+    // DO NOT log user in automatically - redirect to login instead
+    $_SESSION['success'] = 'Account created successfully! Please log in.';
+    
+    header('Location: /login');
     exit;
 }
 

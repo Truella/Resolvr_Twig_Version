@@ -31,8 +31,9 @@ switch ($request_uri) {
 
             handleLogin($twig);
         } else {
-            echo $twig->render('auth/login.twig', ['error' => $_SESSION['error'] ?? null]);
+            echo $twig->render('auth/login.twig', ['error' => $_SESSION['error']  ?? null, 'success' => $_SESSION['success'] ?? null]);
             unset($_SESSION['error']);
+            unset($_SESSION['success']);
         }
         break;
 
