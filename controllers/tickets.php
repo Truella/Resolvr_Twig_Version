@@ -19,6 +19,15 @@ function getTickets() {
     return [];
 }
 
+function getAllTickets() {
+    $ticketsFile = __DIR__ . '/../data/tickets.json';
+    
+    if (file_exists($ticketsFile)) {
+        return json_decode(file_get_contents($ticketsFile), true) ?? [];
+    }
+    
+    return [];
+}
 
 function saveTickets($tickets) {
     $ticketsFile = __DIR__ . '/../data/tickets.json';
@@ -28,7 +37,7 @@ function saveTickets($tickets) {
         mkdir(__DIR__ . '/../data', 0755, true);
     }
     
-    file_put_contents($ticketsFile, json_encode($tickets, JSON_PRETTY_PRINT));
+    file_put_contents($ticketsFile, json_encode(array_values($tickets), JSON_PRETTY_PRINT));
 }
 
 function renderTickets($twig) {
@@ -38,7 +47,7 @@ function renderTickets($twig) {
     
     echo $twig->render('dashboard/tickets.twig', [
         'user' => $_SESSION['user'],
-        'tickets' => $tickets,
+        'tickets' => array_values($tickets), // Re-index array
         'toast' => $toast
     ]);
 }
@@ -92,10 +101,11 @@ function createTicket() {
         return;
     }
     
-    $tickets = getTickets();
+    // Get ALL tickets from file
+    $allTickets = getAllTickets();
     
     $newTicket = [
-        'id' => (string)time(),
+        'id' => uniqid('ticket_', true), // Better unique ID
         'title' => $title,
         'description' => $description,
         'status' => $status,
@@ -104,8 +114,13 @@ function createTicket() {
         'user_token' => $_SESSION['user']['id']
     ];
     
-    $tickets[] = $newTicket;
-    saveTickets($tickets);
+    // Add new ticket to all tickets
+    $allTickets[] = $newTicket;
+    
+    // Save ALL tickets (not just current user's)
+    saveTickets($allTickets);
+    
+    error_log('✓ Ticket created for user: ' . $_SESSION['user']['id']);
     
     $_SESSION['toast'] = ['message' => 'Ticket created successfully!', 'type' => 'success'];
 }
@@ -116,6 +131,7 @@ function updateTicket() {
     $description = trim($_POST['description'] ?? '');
     $status = $_POST['status'] ?? 'open';
     $priority = $_POST['priority'] ?? 'medium';
+    $userId = $_SESSION['user']['id'];
     
     // Validation
     $errors = [];
@@ -139,33 +155,46 @@ function updateTicket() {
         return;
     }
     
-    $tickets = getTickets();
+    // Get ALL tickets from file
+    $allTickets = getAllTickets();
+    $updated = false;
     
-    foreach ($tickets as &$ticket) {
-        if ($ticket['id'] === $id) {
+    foreach ($allTickets as &$ticket) {
+        // Only update if it's the right ticket AND belongs to current user
+        if ($ticket['id'] === $id && $ticket['user_token'] === $userId) {
             $ticket['title'] = $title;
             $ticket['description'] = $description;
             $ticket['status'] = $status;
             $ticket['priority'] = $priority;
             $ticket['updatedAt'] = date('c');
+            $updated = true;
             break;
         }
     }
     
-    saveTickets($tickets);
-    
-    $_SESSION['toast'] = ['message' => 'Ticket updated successfully!', 'type' => 'success'];
+    if ($updated) {
+        // Save ALL tickets
+        saveTickets($allTickets);
+        $_SESSION['toast'] = ['message' => 'Ticket updated successfully!', 'type' => 'success'];
+    } else {
+        $_SESSION['toast'] = ['message' => 'Ticket not found or unauthorized', 'type' => 'error'];
+    }
 }
 
 function deleteTicket() {
     $id = $_POST['id'] ?? '';
+    $userId = $_SESSION['user']['id'];
     
-    $tickets = getTickets();
-    $tickets = array_filter($tickets, function($ticket) use ($id) {
-        return $ticket['id'] !== $id;
+    // Get ALL tickets from file
+    $allTickets = getAllTickets();
+    
+    // Remove only if ticket belongs to current user
+    $remainingTickets = array_filter($allTickets, function($ticket) use ($id, $userId) {
+        return !($ticket['id'] === $id && $ticket['user_token'] === $userId);
     });
     
-    saveTickets(array_values($tickets));
+    // Save ALL remaining tickets
+    saveTickets($remainingTickets);
     
     $_SESSION['toast'] = ['message' => 'Ticket deleted successfully!', 'type' => 'success'];
 }
