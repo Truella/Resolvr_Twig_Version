@@ -1,23 +1,29 @@
 <?php
 
 function renderDashboard($twig) {
-    // Load tickets to calculate stats
+    // Load tickets for current user only
     $ticketsFile = __DIR__ . '/../data/tickets.json';
-    $tickets = [];
+    $userId = $_SESSION['user']['id'];
+    $userTickets = [];
     
     if (file_exists($ticketsFile)) {
-        $tickets = json_decode(file_get_contents($ticketsFile), true) ?? [];
+        $allTickets = json_decode(file_get_contents($ticketsFile), true) ?? [];
+        
+        // Filter tickets for current user only
+        $userTickets = array_filter($allTickets, function($ticket) use ($userId) {
+            return isset($ticket['user_token']) && $ticket['user_token'] == $userId;
+        });
     }
 
-    // Calculate statistics
+    // Calculate statistics for current user's tickets only
     $stats = [
-        'total' => count($tickets),
+        'total' => count($userTickets),
         'open' => 0,
         'inProgress' => 0,
         'resolved' => 0
     ];
 
-    foreach ($tickets as $ticket) {
+    foreach ($userTickets as $ticket) {
         switch ($ticket['status']) {
             case 'open':
                 $stats['open']++;
