@@ -37,15 +37,19 @@ function handleLogin($twig) {
     }
 
     // Set session - store user data
-    $_SESSION['user'] = [
-        'id' => $foundUser['id'],
-        'email' => $foundUser['email'],
-        'name' => $foundUser['name']
-    ];
-    error_log('Session data after: ' . print_r($_SESSION, true));
-    
-    header('Location: /dashboard');
-    exit;
+   $_SESSION['user'] = [
+    'id' => $foundUser['id'],
+    'email' => $foundUser['email'],
+    'name' => $foundUser['name']
+];
+
+error_log('Session data after setting user: ' . print_r($_SESSION, true));
+
+// Force session write before redirect
+session_write_close();
+
+header('Location: /dashboard');
+exit;
 }
 
 function handleSignup($twig) {
